@@ -20,9 +20,9 @@ namespace Route.Talabat.Core.Entities
 
 		public int CategoryId { get; set; }
 
-		public ProductBrand Brands { get; set; }  // Navigational Property [ONE]
+		public ProductBrand Brands { get; set; } = null!;  // Navigational Property [ONE]
 
-		public ProductCategory Category { get; set; }   // Navigational Property [ONE]
+		public ProductCategory Category { get; set; } = null!;  // Navigational Property [ONE]
 
 	}
 }

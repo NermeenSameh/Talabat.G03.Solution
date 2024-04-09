@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure.Data
 {
-	public class StoreContext : DbContext
+	public class ApplicationDbContext : DbContext
 	{
-		public StoreContext(DbContextOptions<StoreContext> options) : base(options) { }
+		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
 
 
