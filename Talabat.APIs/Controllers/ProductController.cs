@@ -13,6 +13,7 @@ namespace Talabat.APIs.Controllers
 		public ProductController(IGenericRepository<Product> productRepo )
         {
 			_productRepo = productRepo;
+		
 		}
 
     }
