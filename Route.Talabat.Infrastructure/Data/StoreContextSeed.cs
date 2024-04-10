@@ -11,7 +11,7 @@ namespace Route.Talabat.Infrastructure.Data
 	public static class StoreContextSeed
 	{
 
-		public async static Task SeedAsync(ApplicationDbContext _dbContext)
+		public async static Task SeedAsync(StoreContext _dbContext)
 		{
 			if (_dbContext.Brands.Count() == 0)
 			{

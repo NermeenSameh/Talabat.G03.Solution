@@ -25,7 +25,7 @@ namespace Talabat.APIs
 			webApplicationBuilder.Services.AddEndpointsApiExplorer();
 			webApplicationBuilder.Services.AddSwaggerGen();
 
-			webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
+			webApplicationBuilder.Services.AddDbContext<StoreContext>(options =>
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
 			});
@@ -38,7 +38,7 @@ namespace Talabat.APIs
 
 			var services = scope.ServiceProvider;
 
-			var _dbContext = services.GetRequiredService<ApplicationDbContext>();
+			var _dbContext = services.GetRequiredService<StoreContext>();
 			// ASK CLR for Creating Object from DbContext Explicitly
 			var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
