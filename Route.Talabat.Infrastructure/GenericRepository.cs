@@ -20,6 +20,8 @@ namespace Route.Talabat.Infrastructure
 		}
 		public async Task<IEnumerable<T>> GetAllAsync()
 		{
+			if (typeof(T) == typeof(Product))
+				return (IEnumerable<T>)await _dbContext.Set<Product>().Include(P => P.Brands).Include(P => P.Category).ToListAsync();
 			return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
 		}
 
