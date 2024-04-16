@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure.Data;
+using Talabat.APIs.Helpers;
 
 namespace Talabat.APIs
 {
@@ -32,8 +33,11 @@ namespace Talabat.APIs
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-			webApplicationBuilder.Services.AddScoped(typeof(IGenericRepository<>) ,typeof(GenericRepository<>) );
+			webApplicationBuilder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+			// webApplicationBuilder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+
+			webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 			#endregion
 
