@@ -7,6 +7,7 @@ using Route.Talabat.Core.Specifications;
 using Route.Talabat.Core.Specifications.Product_Specs;
 using System.Collections.Generic;
 using Talabat.APIs.DTOs;
+using Talabat.APIs.Errors;
 
 namespace Talabat.APIs.Controllers
 {
@@ -38,7 +39,7 @@ namespace Talabat.APIs.Controllers
 			var product = await _productRepo.GetWithSpecAsync(spec);
 
 			if (product is null)
-				return NotFound(new { Massage = "Not FOund", StatusCode = 404 });
+				return NotFound( new ApiResponse(404));
 
 
 			return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
