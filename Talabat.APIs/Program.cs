@@ -7,6 +7,7 @@ using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure.Data;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Helpers;
+using Talabat.APIs.Middlewares;
 
 namespace Talabat.APIs
 {
@@ -62,6 +63,7 @@ namespace Talabat.APIs
 
 			var app = webApplicationBuilder.Build();
 
+			#region Apply All Pending Migrations [Update-Database] and Data Seeding
 			using var scope = app.Services.CreateScope();
 
 			var services = scope.ServiceProvider;
@@ -81,17 +83,22 @@ namespace Talabat.APIs
 
 				var logger = loggerFactory.CreateLogger<Program>();
 				logger.LogError(ex, "An Error has been occured during apply the migration");
-			}
+			} 
+			#endregion
 
 
 
 			#region Configure Kestrel Middlewares
 
+			app.UseMiddleware<ExceptionMiddleware>();
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
 				app.UseSwaggerUI();
+
+			// app.UseDeveloperExceptionPage();
+			
 			}
 
 			app.UseHttpsRedirection();
