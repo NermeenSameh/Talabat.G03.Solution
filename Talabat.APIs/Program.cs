@@ -6,6 +6,7 @@ using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure.Data;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
 
@@ -15,9 +16,6 @@ namespace Talabat.APIs
 	{
 		public static async Task Main(string[] args)
 		{
-			/// StoreContext dbContext = /*new StoreContext()*/;
-			/// await dbContext.Database.MigrateAsync();
-
 
 			var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -26,38 +24,15 @@ namespace Talabat.APIs
 			// Add services to the container.
 
 			webApplicationBuilder.Services.AddControllers();
-			// Register Required Web APIs Services to the DI Container
 
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			webApplicationBuilder.Services.AddEndpointsApiExplorer();
-			webApplicationBuilder.Services.AddSwaggerGen();
+			webApplicationBuilder.Services.AddSwaggerServices();
 
 			webApplicationBuilder.Services.AddDbContext<StoreContext>(options =>
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-			webApplicationBuilder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-			// webApplicationBuilder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
-
-			webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfiles));
-
-			webApplicationBuilder.Services.Configure<ApiBehaviorOptions>(options =>
-			{
-				options.InvalidModelStateResponseFactory = (actionContext) =>
-				{
-					var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
-														 .SelectMany(P => P.Value.Errors)
-														 .Select(E => E.ErrorMessage)
-														 .ToArray();
-					var response = new ApiValidationErrorResponse()
-					{
-						Errors = errors
-					};
-					return new  BadRequestObjectResult(response);
-				};
-			});
+			webApplicationBuilder.Services.AddApplicationServices();
 
 			#endregion
 
@@ -83,7 +58,7 @@ namespace Talabat.APIs
 
 				var logger = loggerFactory.CreateLogger<Program>();
 				logger.LogError(ex, "An Error has been occured during apply the migration");
-			} 
+			}
 			#endregion
 
 
@@ -91,16 +66,14 @@ namespace Talabat.APIs
 			#region Configure Kestrel Middlewares
 
 			app.UseMiddleware<ExceptionMiddleware>();
-			
-			// Configure the HTTP request pipeline.
+
 			if (app.Environment.IsDevelopment())
 			{
-				
-				app.UseSwagger();
-				app.UseSwaggerUI();
 
-			// app.UseDeveloperExceptionPage();
-			
+				app.UseSwaggerMiddleware();
+
+				// app.UseDeveloperExceptionPage();
+
 			}
 
 			app.UseStatusCodePagesWithReExecute("/errors/{0}");
