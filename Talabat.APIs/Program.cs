@@ -91,15 +91,19 @@ namespace Talabat.APIs
 			#region Configure Kestrel Middlewares
 
 			app.UseMiddleware<ExceptionMiddleware>();
+			
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
+				
 				app.UseSwagger();
 				app.UseSwaggerUI();
 
 			// app.UseDeveloperExceptionPage();
 			
 			}
+
+			app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 			app.UseHttpsRedirection();
 
