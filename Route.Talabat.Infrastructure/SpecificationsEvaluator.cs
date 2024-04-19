@@ -22,6 +22,13 @@ namespace Route.Talabat.Infrastructure
 			// 1. P => P.Brand
 			// 2. P => P.Category
 
+			if(spec.OrderBy is not null)
+				query = query.OrderBy(spec.OrderBy);
+			
+			else if(spec.OrderByDesc is not null) 
+				query = query.OrderByDescending(spec.OrderByDesc); 
+
+
 			query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression));
 
 			// _dbContext.Set<Product>().Where(P => P.Id == 1).Include(P => P.Brand)
