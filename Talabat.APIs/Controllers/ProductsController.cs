@@ -32,15 +32,15 @@ namespace Talabat.APIs.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort)
+		public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string? sort, int? brandId, int? categoryId)
 		{
-			var spec = new ProductWithBrandAndCategorySpecifications(sort);
-		
+			var spec = new ProductWithBrandAndCategorySpecifications(sort , brandId , categoryId);
+
 			var products = await _productRepo.GetAllWithSpecAsync(spec);
 
-			return Ok(_mapper.Map <IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+			return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
 		}
-		[ProducesResponseType(typeof(ProductToReturnDto),StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 		[HttpGet("{id}")]
 		public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
@@ -49,25 +49,25 @@ namespace Talabat.APIs.Controllers
 			var product = await _productRepo.GetWithSpecAsync(spec);
 
 			if (product is null)
-				return NotFound( new ApiResponse(404));
+				return NotFound(new ApiResponse(404));
 
 
 			return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
 		}
 
 
-		[HttpGet ("brands")] // Get : /api/Products/brands
+		[HttpGet("brands")] // Get : /api/Products/brands
 
-		public async Task<ActionResult <IReadOnlyList<ProductBrand>>> GetBrands()
+		public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
 		{
 			var brands = await _brandRepo.GetAllAsync();
 
 			return Ok(brands);
-			
+
 		}
 
 
-		[HttpGet ("categories")] // Get : /api/Products/categories
+		[HttpGet("categories")] // Get : /api/Products/categories
 
 		public async Task<ActionResult<IReadOnlyList<ProductCategory>>> GetCategories()
 		{
@@ -75,7 +75,7 @@ namespace Talabat.APIs.Controllers
 			return Ok(categories);
 		}
 
-	
-	
+
+
 	}
 }

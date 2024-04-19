@@ -10,8 +10,12 @@ namespace Route.Talabat.Core.Specifications.Product_Specs
 	public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product>
 	{
 		// This Constructor will be Used for Creating an Object , That will be Used to Get All Product
-		public ProductWithBrandAndCategorySpecifications(string sort)
-			: base()
+		public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId)
+			: base(P =>
+
+					(!brandId.HasValue || P.BrandId == brandId.Value) &&
+					(!categoryId.HasValue || P.CategoryId == categoryId.Value)
+			)
 		{
 			AddIncludes();
 
