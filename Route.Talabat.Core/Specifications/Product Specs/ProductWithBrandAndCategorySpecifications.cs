@@ -12,7 +12,7 @@ namespace Route.Talabat.Core.Specifications.Product_Specs
 		// This Constructor will be Used for Creating an Object , That will be Used to Get All Product
 		public ProductWithBrandAndCategorySpecifications(ProductSpecParams specParams)
 			: base(P =>
-
+					(string.IsNullOrEmpty(specParams.Search) || P.Name.ToLower().Contains(specParams.Search)) &&
 					(!specParams.BrandId.HasValue || P.BrandId == specParams.BrandId.Value) &&
 					(!specParams.CategoryId.HasValue || P.CategoryId == specParams.CategoryId.Value)
 			)
@@ -38,7 +38,7 @@ namespace Route.Talabat.Core.Specifications.Product_Specs
 			else
 				AddOrderBy(P => P.Name);
 
-			ApplyPagination((specParams.PageIndex - 1) * specParams.PageSize,specParams.PageSize);
+			ApplyPagination((specParams.PageIndex - 1) * specParams.PageSize, specParams.PageSize);
 		}
 
 		// This Constructor will be Used for Creating an object, that will be used to Get A specific product with id

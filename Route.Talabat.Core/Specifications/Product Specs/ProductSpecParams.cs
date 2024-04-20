@@ -24,6 +24,15 @@ namespace Route.Talabat.Core.Specifications.Product_Specs
 
 		public int? CategoryId { get; set; }
 
+		private string? search;
+
+		public string? Search
+		{
+			get { return search; }
+			set { search = value?.ToLower(); }
+		}
+
+
 
 
 
