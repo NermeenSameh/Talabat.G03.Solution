@@ -8,6 +8,7 @@ using Route.Talabat.Core.Specifications.Product_Specs;
 using System.Collections.Generic;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Helpers;
 
 namespace Talabat.APIs.Controllers
 {
@@ -32,13 +33,23 @@ namespace Talabat.APIs.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams specParams )
+		public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams specParams)
 		{
 			var spec = new ProductWithBrandAndCategorySpecifications(specParams);
 
+		
 			var products = await _productRepo.GetAllWithSpecAsync(spec);
 
-			return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+			
+			var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+
+			
+			var countSpec = new ProductWithFilterationForCountSpecifications(specParams);
+
+			
+			var count = await _productRepo.GetCountAsync(countSpec);
+
+			return Ok(new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, count,data));
 		}
 		[ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
