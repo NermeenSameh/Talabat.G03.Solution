@@ -1,4 +1,4 @@
-﻿using Route.Talabat.Core.Entities;
+﻿using Route.Talabat.Core.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure.Data
 {
-	public static class StoreContextSeed
+    public static class StoreContextSeed
 	{
 
 		public async static Task SeedAsync(StoreContext _dbContext)

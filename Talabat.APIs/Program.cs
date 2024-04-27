@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
+using Route.Talabat.Infrastructure._Identity;
 using Route.Talabat.Infrastructure.Data;
 using StackExchange.Redis;
 using Talabat.APIs.Errors;
@@ -40,7 +41,14 @@ namespace Talabat.APIs
 				return ConnectionMultiplexer.Connect(connection);
 			});
 
+			webApplicationBuilder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+			{
+				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
+				
+			});
+
 			webApplicationBuilder.Services.AddApplicationServices();
+
 
 
 
@@ -57,6 +65,7 @@ namespace Talabat.APIs
 
 			var _dbContext = services.GetRequiredService<StoreContext>();
 			// ASK CLR for Creating Object from DbContext Explicitly
+			var _identityDbContext = services.GetRequiredService<ApplicationIdentityDbContext>();
 			var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
 			try
@@ -64,6 +73,7 @@ namespace Talabat.APIs
 
 				await _dbContext.Database.MigrateAsync();
 				await StoreContextSeed.SeedAsync(_dbContext);
+				await _identityDbContext.Database.MigrateAsync();
 			}
 			catch (Exception ex)
 			{

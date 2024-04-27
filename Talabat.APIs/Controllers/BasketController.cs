@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Route.Talabat.Core.Entities;
+using Route.Talabat.Core.Entities.Baskets;
 using Route.Talabat.Core.Repositories.Contract;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
@@ -9,7 +9,7 @@ using Talabat.APIs.Errors;
 namespace Talabat.APIs.Controllers
 {
 
-	public class BasketController : BaseApiController
+    public class BasketController : BaseApiController
 	{
 		private readonly IBasketRepository _basketRepository;
 		private readonly IMapper _mapper;

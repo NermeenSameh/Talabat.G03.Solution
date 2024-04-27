@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Route.Talabat.Core.Entities;
+using Route.Talabat.Core.Entities.Baskets;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Specifications;
 using Route.Talabat.Infrastructure.Data;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure
 {
-	public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 	{
 		private readonly StoreContext _dbContext;
 

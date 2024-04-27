@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Route.Talabat.Core.Entities;
+using Route.Talabat.Core.Entities.Product;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Specifications;
 using Route.Talabat.Core.Specifications.Product_Specs;
@@ -13,7 +13,7 @@ using Talabat.APIs.Helpers;
 namespace Talabat.APIs.Controllers
 {
 
-	public class ProductsController : BaseApiController
+    public class ProductsController : BaseApiController
 	{
 		private readonly IGenericRepository<Product> _productRepo;
 		private readonly IGenericRepository<ProductBrand> _brandRepo;

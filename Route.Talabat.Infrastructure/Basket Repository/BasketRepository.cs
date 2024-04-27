@@ -1,4 +1,4 @@
-﻿using Route.Talabat.Core.Entities;
+﻿using Route.Talabat.Core.Entities.Baskets;
 using Route.Talabat.Core.Repositories.Contract;
 using StackExchange.Redis;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure
 {
-	public class BasketRepository : IBasketRepository
+    public class BasketRepository : IBasketRepository
 	{
 		private readonly IDatabase _database;
 

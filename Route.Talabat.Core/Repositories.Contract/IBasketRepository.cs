@@ -1,4 +1,4 @@
-﻿using Route.Talabat.Core.Entities;
+﻿using Route.Talabat.Core.Entities.Baskets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Core.Repositories.Contract
 {
-	public interface IBasketRepository
+    public interface IBasketRepository
 	{
 		Task<CustomerBasket?> GetBasketAsync(string basketId);
 

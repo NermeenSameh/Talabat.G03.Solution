@@ -1,4 +1,4 @@
-﻿using Route.Talabat.Core.Entities;
+﻿using Route.Talabat.Core.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Core.Specifications.Product_Specs
 {
-	public class ProductWithFilterationForCountSpecifications : BaseSpecifications<Product>
+    public class ProductWithFilterationForCountSpecifications : BaseSpecifications<Product>
 	{
 
 

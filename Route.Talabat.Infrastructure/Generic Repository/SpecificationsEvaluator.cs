@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Route.Talabat.Core.Entities;
+using Route.Talabat.Core.Entities.Baskets;
 using Route.Talabat.Core.Specifications;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure
 {
-	internal class SpecificationsEvaluator<TEntity> where TEntity : BaseEntity
+    internal class SpecificationsEvaluator<TEntity> where TEntity : BaseEntity
 	{
 		public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery , ISpecifications<TEntity> spec)
 		{

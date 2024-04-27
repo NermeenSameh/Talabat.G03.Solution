@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Route.Talabat.Core.Entities;
+using Route.Talabat.Core.Entities.Product;
 using Talabat.APIs.DTOs;
 using static System.Net.WebRequestMethods;
 
 namespace Talabat.APIs.Helpers
 {
-	public class ProductPictureUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
+    public class ProductPictureUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
 	{
 		private readonly IConfiguration _configuration;
 
