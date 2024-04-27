@@ -1,7 +1,9 @@
 
 using Azure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Route.Talabat.Core.Entities.Identity;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure._Identity;
@@ -29,16 +31,13 @@ namespace Talabat.APIs
 
 			webApplicationBuilder.Services.AddSwaggerServices();
 
+
+
+			webApplicationBuilder.Services.AddApplicationServices();
+
 			webApplicationBuilder.Services.AddDbContext<StoreContext>(options =>
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
-			});
-
-			webApplicationBuilder.Services.AddSingleton<IConnectionMultiplexer>((serviceProvider) =>
-			{
-				var connection = webApplicationBuilder.Configuration.GetConnectionString("Redis");
-
-				return ConnectionMultiplexer.Connect(connection);
 			});
 
 			webApplicationBuilder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
@@ -46,10 +45,21 @@ namespace Talabat.APIs
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
 				
 			});
+		
+			webApplicationBuilder.Services.AddSingleton<IConnectionMultiplexer>((serviceProvider) =>
+			{
+				var connection = webApplicationBuilder.Configuration.GetConnectionString("Redis");
 
-			webApplicationBuilder.Services.AddApplicationServices();
-
-
+				return ConnectionMultiplexer.Connect(connection);
+			});
+		
+			webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+			{
+				//options.Password.RequiredUniqueChars = 2;
+				//options.Password.RequireDigit= true;
+				//options.Password.RequireLowercase= true;
+				//options.Password.RequireUppercase= true;
+			}).AddEntityFrameworkStores<ApplicationIdentityDbContext>();
 
 
 
@@ -73,7 +83,12 @@ namespace Talabat.APIs
 
 				await _dbContext.Database.MigrateAsync();
 				await StoreContextSeed.SeedAsync(_dbContext);
+			
+				
 				await _identityDbContext.Database.MigrateAsync();
+				var _userManger = services.GetRequiredService<UserManager<ApplicationUser>>();
+				await ApplicationIdentityContextSeed.SeedUserAsync(_userManger);
+			
 			}
 			catch (Exception ex)
 			{
