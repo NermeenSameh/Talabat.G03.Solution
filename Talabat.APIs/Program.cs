@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Route.Talabat.Core.Entities.Identity;
 using Route.Talabat.Core.Repositories.Contract;
+using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure._Identity;
 using Route.Talabat.Infrastructure.Data;
+using Route.Talabat.Service.AuthService;
 using StackExchange.Redis;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Extensions;
@@ -61,7 +63,7 @@ namespace Talabat.APIs
 				//options.Password.RequireUppercase= true;
 			}).AddEntityFrameworkStores<ApplicationIdentityDbContext>();
 
-
+			webApplicationBuilder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
 
 
 			#endregion
