@@ -1,8 +1,10 @@
 
 using Azure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Route.Talabat.Core.Entities.Identity;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Services.Contract;
@@ -11,6 +13,7 @@ using Route.Talabat.Infrastructure._Identity;
 using Route.Talabat.Infrastructure.Data;
 using Route.Talabat.Service.AuthService;
 using StackExchange.Redis;
+using System.Text;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
@@ -45,25 +48,26 @@ namespace Talabat.APIs
 			webApplicationBuilder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
-				
+
 			});
-		
+
 			webApplicationBuilder.Services.AddSingleton<IConnectionMultiplexer>((serviceProvider) =>
 			{
 				var connection = webApplicationBuilder.Configuration.GetConnectionString("Redis");
 
 				return ConnectionMultiplexer.Connect(connection);
 			});
-		
+
 			webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				//options.Password.RequiredUniqueChars = 2;
 				//options.Password.RequireDigit= true;
 				//options.Password.RequireLowercase= true;
 				//options.Password.RequireUppercase= true;
-			}).AddEntityFrameworkStores<ApplicationIdentityDbContext>();
+			})
+				.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
 
-			webApplicationBuilder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+			webApplicationBuilder.Services.AddAuthServices(webApplicationBuilder.Configuration);
 
 
 			#endregion
@@ -85,12 +89,12 @@ namespace Talabat.APIs
 
 				await _dbContext.Database.MigrateAsync();
 				await StoreContextSeed.SeedAsync(_dbContext);
-			
-				
+
+
 				await _identityDbContext.Database.MigrateAsync();
 				var _userManger = services.GetRequiredService<UserManager<ApplicationUser>>();
 				await ApplicationIdentityContextSeed.SeedUserAsync(_userManger);
-			
+
 			}
 			catch (Exception ex)
 			{
