@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Route.Talabat.Core.Entities.Order_Aggregate;
 using Route.Talabat.Core.Entities.Product;
 using System;
 using System.Collections.Generic;
@@ -31,5 +32,10 @@ namespace Route.Talabat.Infrastructure.Data
 
 		public DbSet<ProductCategory> Categories { get; set; }
 
+		public DbSet<Order> Orders { get; set; }
+
+		public DbSet<OrderItem> OrderItems { get; set; }
+
+		public DbSet<DeliveryMethod> DeliveryMethods { get; set;}
 	}
 }
