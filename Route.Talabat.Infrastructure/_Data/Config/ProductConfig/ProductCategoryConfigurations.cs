@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Data.Config
+namespace Route.Talabat.Infrastructure._Data.Config.ProductConfig
 {
     internal class ProductCategoryConfigurations : IEntityTypeConfiguration<ProductCategory>
-	{
-		public void Configure(EntityTypeBuilder<ProductCategory> builder)
-		{
-			builder.Property(C => C.Name).IsRequired();
-		}
-	}
+    {
+        public void Configure(EntityTypeBuilder<ProductCategory> builder)
+        {
+            builder.Property(C => C.Name).IsRequired();
+        }
+    }
 }

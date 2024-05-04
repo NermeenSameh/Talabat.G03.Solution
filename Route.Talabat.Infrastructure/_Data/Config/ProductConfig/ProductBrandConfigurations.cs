@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Data.Config
+namespace Route.Talabat.Infrastructure._Data.Config.ProductConfig
 {
     internal class ProductBrandConfigurations : IEntityTypeConfiguration<ProductBrand>
-	{
-		public void Configure(EntityTypeBuilder<ProductBrand> builder)
-		{
-			builder.Property(B => B.Name).IsRequired();
-		}
-	}
+    {
+        public void Configure(EntityTypeBuilder<ProductBrand> builder)
+        {
+            builder.Property(B => B.Name).IsRequired();
+        }
+    }
 }

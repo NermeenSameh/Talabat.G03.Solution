@@ -16,9 +16,9 @@ namespace Route.Talabat.Core.Entities.Order_Aggregate
 
 		public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
-		public Address ShappingAddress { get; set; } = null!;
+		public Address ShippingAddress { get; set; } = null!;
 
-		public int DeliveryMethodId { get; set; } // FOreign Key 
+		// public int DeliveryMethodId { get; set; } // FOreign Key 
 		public DeliveryMethod DeliveryMethod { get; set; } = null!;  // Navigational Property  [ONE]
 
 		public ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();  // Navigational Property [MANY]
