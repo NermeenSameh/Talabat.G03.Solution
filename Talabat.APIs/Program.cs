@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Route.Talabat.Core.Entities.Identity;
 using Route.Talabat.Core.Repositories.Contract;
@@ -32,7 +33,10 @@ namespace Talabat.APIs
 
 			// Add services to the container.
 
-			webApplicationBuilder.Services.AddControllers();
+			webApplicationBuilder.Services.AddControllers().AddNewtonsoftJson(options =>
+			{
+				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+			});
 
 			webApplicationBuilder.Services.AddSwaggerServices();
 

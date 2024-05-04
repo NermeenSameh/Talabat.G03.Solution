@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Route.Talabat.Core.Entities.Baskets;
 
@@ -20,10 +21,11 @@ namespace Route.Talabat.Core.Entities.Identity
       
         public string Country { get; set; } = null!;
 
+       // [JsonIgnore]
         public string ApplicationUserId { get; set; } = null!; // Foreign Key
 
 
-
+       // [JsonIgnore]
         public ApplicationUser User { get; set; } = null!; // Navigational Property [ONE]
     }
 }
