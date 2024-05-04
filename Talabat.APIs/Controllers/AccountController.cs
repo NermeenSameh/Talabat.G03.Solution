@@ -8,6 +8,8 @@ using Route.Talabat.Core.Services.Contract;
 using System.Security.Claims;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
+
 
 namespace Talabat.APIs.Controllers
 {
@@ -91,6 +93,17 @@ namespace Talabat.APIs.Controllers
 				Token = await _authService.CreateTokenAsync(user , _userManager)
 
 			}); 
+		}
+
+
+		[Authorize]
+		[HttpGet("address")]
+		public async Task<ActionResult<Address>> GetUserAddress()
+		{
+
+			var user = await _userManager.FindUserWithAddressByEmailAsync(User);
+
+			return Ok(user.Address);
 		}
 
 	}
