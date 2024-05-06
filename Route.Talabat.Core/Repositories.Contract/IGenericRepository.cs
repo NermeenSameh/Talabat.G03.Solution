@@ -21,7 +21,7 @@ namespace Route.Talabat.Core.Repositories.Contract
 		Task<int> GetCountAsync(ISpecifications<T> spec);
 
 
-		void Add(T entity);
+		void AddAsync(T entity);
 		void Delete(T entity);
 		void Update(T entity);
 	}

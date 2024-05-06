@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Route.Talabat.Core;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure;
@@ -52,6 +53,8 @@ namespace Talabat.APIs.Extensions
 
 		public static IServiceCollection AddAuthServices(this IServiceCollection services , IConfiguration configuration)
 		{
+			services.AddScoped(typeof(IUniteOfWork) , typeof(UniteOfWork));
+
 			services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/ options =>
 			{
 				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

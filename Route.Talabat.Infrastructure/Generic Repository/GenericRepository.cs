@@ -56,7 +56,7 @@ namespace Route.Talabat.Infrastructure
 			return SpecificationsEvaluator<T>.GetQuery(_dbContext.Set<T>(), spec);
 		}
 
-		public void Add(T entity)
+		public void AddAsync(T entity)
 			=> _dbContext.Set<T>().Add(entity);
 
 		public void Delete(T entity)

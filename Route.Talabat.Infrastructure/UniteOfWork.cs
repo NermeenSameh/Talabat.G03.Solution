@@ -37,15 +37,11 @@ namespace Route.Talabat.Infrastructure
 				
 		}
 
-		public Task<int> CompleteAsync()
-		{
-			throw new NotImplementedException();
-		}
+		public async Task<int> CompleteAsync()
+		=> await _dbContext.SaveChangesAsync();
 
-		public ValueTask DisposeAsync()
-		{
-			throw new NotImplementedException();
-		}
+		public async ValueTask DisposeAsync()
+		 => await _dbContext.DisposeAsync();
 
 	}
 }
