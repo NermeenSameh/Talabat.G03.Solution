@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+	public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 	{
 		private readonly StoreContext _dbContext;
 
@@ -45,8 +45,8 @@ namespace Route.Talabat.Infrastructure
 		{
 			return await ApplySpecifications(spec).FirstOrDefaultAsync();
 		}
-		
-		
+
+
 		public async Task<int> GetCountAsync(ISpecifications<T> spec)
 		{
 			return await ApplySpecifications(spec).CountAsync();
@@ -56,5 +56,13 @@ namespace Route.Talabat.Infrastructure
 			return SpecificationsEvaluator<T>.GetQuery(_dbContext.Set<T>(), spec);
 		}
 
+		public void Add(T entity)
+			=> _dbContext.Set<T>().Add(entity);
+
+		public void Delete(T entity)
+			=> _dbContext.Set<T>().Remove(entity);
+
+		public void Update(T entity)
+		  => _dbContext.Set<T>().Update(entity);
 	}
 }

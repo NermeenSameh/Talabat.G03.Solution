@@ -9,7 +9,19 @@ namespace Route.Talabat.Core.Entities.Order_Aggregate
 {
 	public class OrderItem : BaseEntity
 	{
-		public ProductItemOrder Product { get; set; } = null!;
+		public OrderItem(ProductItemOrder product, decimal price, int quantity)
+		{
+			Product = product;
+			Price = price;
+			Quantity = quantity;
+		}
+
+        private OrderItem()
+        {
+            
+        }
+
+        public ProductItemOrder Product { get; set; } = null!;
 
 		public decimal Price { get; set; }
 

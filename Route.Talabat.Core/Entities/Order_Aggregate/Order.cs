@@ -10,7 +10,20 @@ namespace Route.Talabat.Core.Entities.Order_Aggregate
 {
 	public class Order : BaseEntity
 	{
-		public string BuyerEmail { get; set; } = null!;
+		public Order(string buyerEmail, Address shippingAddress, int? deliveryMethodId, ICollection<OrderItem> items, decimal subtotal)
+		{
+			BuyerEmail = buyerEmail;
+			ShippingAddress = shippingAddress;
+			DeliveryMethodId = deliveryMethodId;
+			Items = items;
+			Subtotal = subtotal;
+		}
+        private Order()
+        {
+            
+        }
+
+        public string BuyerEmail { get; set; } = null!;
 
 		public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow;
 
@@ -18,7 +31,7 @@ namespace Route.Talabat.Core.Entities.Order_Aggregate
 
 		public Address ShippingAddress { get; set; } = null!;
 
-		// public int DeliveryMethodId { get; set; } // FOreign Key 
+		 public int? DeliveryMethodId { get; set; } // FOreign Key 
 		public DeliveryMethod? DeliveryMethod { get; set; } = null!;  // Navigational Property  [ONE]
 
 		public ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();  // Navigational Property [MANY]
