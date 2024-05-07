@@ -50,7 +50,7 @@ namespace Route.Talabat.Service.OrderService
 			{
 				foreach (var item in basket.Items)
 				{
-					var product = await _uniteOfWork.Repository<Product>().GetAsync(item.Id);
+					var product = await _uniteOfWork.Repository<Product>().GetByIdAsync(item.Id);
 
 					var productItemOrdered = new ProductItemOrder(product.Id, product.Name, product.PictureUrl);
 
@@ -67,7 +67,7 @@ namespace Route.Talabat.Service.OrderService
 
 			// 4. Get Delivery Method From DeliveryMethods Repo
 
-			var deliveryMethod = await _uniteOfWork.Repository<DeliveryMethod>().GetAsync(deliveryMethodId);
+			var deliveryMethod = await _uniteOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
 
 			// 5. Create Order
 
@@ -96,12 +96,6 @@ namespace Route.Talabat.Service.OrderService
 		{
 			throw new NotImplementedException();
 		}
-
-		public Task<Order> GetOrderByIdForUserAsync(string buyerEmail, int orderId)
-		{
-			throw new NotImplementedException();
-		}
-
 		public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
 		{
 			var ordersRepo = _uniteOfWork.Repository<Order>();
@@ -114,5 +108,17 @@ namespace Route.Talabat.Service.OrderService
 
 
 		}
+
+		public Task<Order?> GetOrderByIdForUserAsync(int orderId, string buyerEmail)
+		{
+			var orderRepo = _uniteOfWork.Repository<Order>();
+
+			var OrderSpec = new OrderSpecifications(orderId,buyerEmail);
+
+			var order = orderRepo.GetIdWithSpecAsync(OrderSpec);
+
+			return order;
+		}
+
 	}
 }
