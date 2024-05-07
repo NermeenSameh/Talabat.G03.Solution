@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.Core.Entities.Order_Aggregate;
 using Route.Talabat.Core.Services.Contract;
@@ -56,5 +57,17 @@ namespace Talabat.APIs.Controllers
 
 			return Ok(_mapper.Map<OrderToReturnDto>(order));
 		}
+
+
+		[Authorize]
+		[HttpGet("deliveryMethods")]
+		public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
+		{
+			var deliveryMethods = await _orderService.GetDeliveryMethodsAsync();
+
+			return Ok(deliveryMethods);
+		}
+	
+	
 	}
 }
