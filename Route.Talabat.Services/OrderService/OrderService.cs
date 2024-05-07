@@ -3,6 +3,7 @@ using Route.Talabat.Core.Entities.Order_Aggregate;
 using Route.Talabat.Core.Entities.Product;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Services.Contract;
+using Route.Talabat.Core.Specifications.Order_Specs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,9 +102,17 @@ namespace Route.Talabat.Service.OrderService
 			throw new NotImplementedException();
 		}
 
-		public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+		public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
 		{
-			throw new NotImplementedException();
+			var ordersRepo = _uniteOfWork.Repository<Order>();
+
+			var spec = new OrderSpecifications(buyerEmail);
+
+			var orders = await ordersRepo.GetAllWithSpecAsync(spec);
+
+			return orders;
+
+
 		}
 	}
 }
