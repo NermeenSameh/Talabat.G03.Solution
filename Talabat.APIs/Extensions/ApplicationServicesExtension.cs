@@ -8,6 +8,7 @@ using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Service.AuthService;
+using Route.Talabat.Service.OrderService;
 using StackExchange.Redis;
 using System.Text;
 using Talabat.APIs.Errors;
@@ -20,6 +21,12 @@ namespace Talabat.APIs.Extensions
 
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
+			services.AddScoped(typeof(IOrderService), typeof(OrderService));
+			
+			services.AddScoped(typeof(IUniteOfWork), typeof(UniteOfWork));
+			
+			services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
+		
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 			// webApplicationBuilder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
@@ -53,7 +60,8 @@ namespace Talabat.APIs.Extensions
 
 		public static IServiceCollection AddAuthServices(this IServiceCollection services , IConfiguration configuration)
 		{
-			services.AddScoped(typeof(IUniteOfWork) , typeof(UniteOfWork));
+
+	
 
 			services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/ options =>
 			{
