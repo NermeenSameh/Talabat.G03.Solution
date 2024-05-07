@@ -9,6 +9,7 @@ using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Service.AuthService;
 using Route.Talabat.Service.OrderService;
+using Route.Talabat.Service.ProductService;
 using StackExchange.Redis;
 using System.Text;
 using Talabat.APIs.Errors;
@@ -21,6 +22,8 @@ namespace Talabat.APIs.Extensions
 
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
+
+			services.AddScoped(typeof(IProductService), typeof(ProductService));
 			services.AddScoped(typeof(IOrderService), typeof(OrderService));
 			
 			services.AddScoped(typeof(IUniteOfWork), typeof(UniteOfWork));

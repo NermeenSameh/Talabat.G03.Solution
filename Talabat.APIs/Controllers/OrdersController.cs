@@ -8,7 +8,8 @@ using Talabat.APIs.Errors;
 
 namespace Talabat.APIs.Controllers
 {
-
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[Authorize]
 	public class OrdersController : BaseApiController
 	{
 		private readonly IOrderService _orderService;
@@ -59,7 +60,7 @@ namespace Talabat.APIs.Controllers
 		}
 
 
-		[Authorize]
+		
 		[HttpGet("deliveryMethods")]
 		public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
 		{
