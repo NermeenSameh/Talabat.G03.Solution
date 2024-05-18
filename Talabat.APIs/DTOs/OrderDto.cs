@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talabat.APIs.DTOs
 {
-	public class OrderDto
+	public class OrderDTo
 	{
 		[Required]
 		public string BuyerEmail { get; set; } = null!;
