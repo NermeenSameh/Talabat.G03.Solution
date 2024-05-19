@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Route.Talabat.Core;
+using Route.Talabat.Core.Entities.Identity;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure;
+using Route.Talabat.Infrastructure._Identity;
 using Route.Talabat.Service.AuthService;
 using Route.Talabat.Service.OrderService;
+using Route.Talabat.Service.PaymentService;
 using Route.Talabat.Service.ProductService;
 using StackExchange.Redis;
 using System.Text;
@@ -23,13 +27,15 @@ namespace Talabat.APIs.Extensions
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
 
+			services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
+
 			services.AddScoped(typeof(IProductService), typeof(ProductService));
 			services.AddScoped(typeof(IOrderService), typeof(OrderService));
-			
+
 			services.AddScoped(typeof(IUniteOfWork), typeof(UniteOfWork));
-			
+
 			services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
-		
+
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 			// webApplicationBuilder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
@@ -53,18 +59,25 @@ namespace Talabat.APIs.Extensions
 			});
 
 			services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
-			
-			
-			
+
+
+
 			return services;
 
 		}
 
 
-		public static IServiceCollection AddAuthServices(this IServiceCollection services , IConfiguration configuration)
+		public static IServiceCollection AddAuthServices(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+				{
+					//options.Password.RequiredUniqueChars = 2;
+					//options.Password.RequireDigit= true;
+					//options.Password.RequireLowercase= true;
+					//options.Password.RequireUppercase= true;
+				})
+					.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
 
-	
 
 			services.AddAuthentication(/*JwtBearerDefaults.AuthenticationScheme*/ options =>
 			{
@@ -89,10 +102,10 @@ namespace Talabat.APIs.Extensions
 				});
 
 			services.AddScoped(typeof(IAuthService), typeof(AuthService));
-		
-		return services;
+
+			return services;
 		}
 
-		
+
 	}
 }

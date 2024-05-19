@@ -62,15 +62,6 @@ namespace Talabat.APIs
 				return ConnectionMultiplexer.Connect(connection);
 			});
 
-			webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-			{
-				//options.Password.RequiredUniqueChars = 2;
-				//options.Password.RequireDigit= true;
-				//options.Password.RequireLowercase= true;
-				//options.Password.RequireUppercase= true;
-			})
-				.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
-
 			webApplicationBuilder.Services.AddAuthServices(webApplicationBuilder.Configuration);
 
 
