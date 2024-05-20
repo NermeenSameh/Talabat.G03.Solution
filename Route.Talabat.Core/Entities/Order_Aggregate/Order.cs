@@ -10,13 +10,14 @@ namespace Route.Talabat.Core.Entities.Order_Aggregate
 {
 	public class Order : BaseEntity
 	{
-		public Order(string buyerEmail, Address shippingAddress, int? deliveryMethodId, ICollection<OrderItem> items, decimal subtotal)
+		public Order(string buyerEmail, Address shippingAddress, int? deliveryMethodId, ICollection<OrderItem> items, decimal subtotal , string paymentIntenId)
 		{
 			BuyerEmail = buyerEmail;
 			ShippingAddress = shippingAddress;
 			DeliveryMethodId = deliveryMethodId;
 			Items = items;
 			Subtotal = subtotal;
+			PaymentIntenId = paymentIntenId;
 		}
         private Order()
         {
@@ -43,6 +44,6 @@ namespace Route.Talabat.Core.Entities.Order_Aggregate
 
         public decimal GetTotal() => Subtotal + DeliveryMethod.Cost;
 
-		public string PaymentIntenId { get; set; } = string.Empty;
+		public string PaymentIntenId { get; set; } 
     }
 }
