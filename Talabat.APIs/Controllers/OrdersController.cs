@@ -8,7 +8,7 @@ using Talabat.APIs.Errors;
 
 namespace Talabat.APIs.Controllers
 {
-	[ApiExplorerSettings(IgnoreApi = true)]
+	// [ApiExplorerSettings(IgnoreApi = true)]
 	[Authorize]
 	public class OrdersController : BaseApiController
 	{
