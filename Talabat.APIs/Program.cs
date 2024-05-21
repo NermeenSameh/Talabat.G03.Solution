@@ -40,8 +40,6 @@ namespace Talabat.APIs
 
 			webApplicationBuilder.Services.AddSwaggerServices();
 
-
-
 			webApplicationBuilder.Services.AddApplicationServices();
 
 			webApplicationBuilder.Services.AddDbContext<StoreContext>(options =>
@@ -64,7 +62,14 @@ namespace Talabat.APIs
 
 			webApplicationBuilder.Services.AddAuthServices(webApplicationBuilder.Configuration);
 
-
+			webApplicationBuilder.Services.AddCors(options =>
+			{
+				options.AddPolicy("MyPolicy", policyOptions =>
+				{
+					policyOptions.AllowAnyHeader().AllowAnyMethod().WithOrigins(webApplicationBuilder.Configuration["FrontBaseUrl"]);
+				});
+			});
+			
 			#endregion
 
 			var app = webApplicationBuilder.Build();
@@ -118,12 +123,15 @@ namespace Talabat.APIs
 
 			app.UseHttpsRedirection();
 
-			app.UseAuthorization();
-
 			app.UseStaticFiles();
 
+			app.UseCors("MyPolicy");
 
 			app.MapControllers();
+
+			app.UseAuthorization();
+
+			app.UseAuthentication();
 
 			#endregion
 
