@@ -1,4 +1,5 @@
 ﻿using Route.Talabat.Core.Entities.Baskets;
+using Route.Talabat.Core.Entities.Order_Aggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Route.Talabat.Core.Services.Contract
 
 		Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string basketId);
 
+
+		Task<Order?> UpdateOrderStatus(string paymentIntentId, bool isPaid);
 	}
 }
