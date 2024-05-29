@@ -46,7 +46,7 @@ namespace Talabat.APIs.Controllers
 			var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
 			var stripeEvent = EventUtility.ConstructEvent(json,
-				Request.Headers["Stripe-Signature"], WhSecret);
+				Request.Headers["Stripe-Signature"], WhSecret , 300 , false);
 
 			var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
 
