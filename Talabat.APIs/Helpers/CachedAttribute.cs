@@ -51,7 +51,7 @@ namespace Talabat.APIs.Helpers
 
 			keyBuilder.Append(request.Path);
 
-			foreach (var (key , value) in request.Query)
+			foreach (var (key , value) in request.Query.OrderBy(x => x.Key))
 			{
 				keyBuilder.Append($"|{key}-{value}");
 			}
