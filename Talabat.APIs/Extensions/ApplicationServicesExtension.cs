@@ -11,6 +11,7 @@ using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure._Identity;
 using Route.Talabat.Service.AuthService;
+using Route.Talabat.Service.CacheService;
 using Route.Talabat.Service.OrderService;
 using Route.Talabat.Service.PaymentService;
 using Route.Talabat.Service.ProductService;
@@ -26,7 +27,8 @@ namespace Talabat.APIs.Extensions
 
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
-
+			services.AddSingleton(typeof(IResponseCacheService), typeof(ResponseCacheService));
+		
 			services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
 
 			services.AddScoped(typeof(IProductService), typeof(ProductService));
