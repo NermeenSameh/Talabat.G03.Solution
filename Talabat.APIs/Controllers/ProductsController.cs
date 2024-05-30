@@ -10,7 +10,7 @@ using Talabat.APIs.Helpers;
 namespace Talabat.APIs.Controllers
 {
 
-    public class ProductsController : BaseApiController
+	public class ProductsController : BaseApiController
 	{
 		private readonly IProductService _productService;
 
@@ -24,14 +24,14 @@ namespace Talabat.APIs.Controllers
 			/// IGenericRepository<Product> productRepo,
 			/// IGenericRepository<ProductBrand> brandRepo,
 			/// IGenericRepository<ProductCategory> categoryRepo,
-			
+
 			IMapper mapper
 			)
 		{
 			/// _productRepo = productRepo;
 			/// _brandRepo = brandRepo;
 			/// _categoryRepo = categoryRepo;
-		
+
 			_productService = productService;
 			_mapper = mapper;
 		}
@@ -41,15 +41,16 @@ namespace Talabat.APIs.Controllers
 		public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams specParams)
 		{
 			var products = await _productService.GetProductsAsync(specParams);
-			
+
 			var count = await _productService.GetCountAsync(specParams);
-			
+
 			var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
 
-			return Ok(new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, count,data));
+			return Ok(new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, count, data));
 		}
 		[ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+		[CachedAttribute(600)]
 		[HttpGet("{id}")]
 		public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
 		{
@@ -62,7 +63,7 @@ namespace Talabat.APIs.Controllers
 			return Ok(_mapper.Map<Product, ProductToReturnDto>(product));
 		}
 
-
+		[CachedAttribute(600)]
 		[HttpGet("brands")] // Get : /api/Products/brands
 
 		public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
@@ -73,7 +74,7 @@ namespace Talabat.APIs.Controllers
 
 		}
 
-
+		[CachedAttribute(600)]
 		[HttpGet("categories")] // Get : /api/Products/categories
 
 		public async Task<ActionResult<IReadOnlyList<ProductCategory>>> GetCategories()
